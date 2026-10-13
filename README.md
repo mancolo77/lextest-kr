@@ -7,12 +7,11 @@
 
 ## 🚀 Как запустить
 
-### Вариант 1: В браузере (локальный сервер уже запущен)
-Перейдите по ссылке в любом браузере:
-👉 **[http://localhost:8085](http://localhost:8085)**
+### Онлайн в интернете (GitHub Pages)
+👉 **[https://mancolo77.github.io/lextest-kr/](https://mancolo77.github.io/lextest-kr/)**
 
-### Вариант 2: Открыть файл напрямую (Offline)
-Просто дважды кликните на файл **[`index.html`](file:///Users/streamtech/projects/love/index.html)**. Веб-приложение полностью автономно и работает без необходимости в интернете.
+### Локально в браузере
+Перейдите по ссылке: **[http://localhost:8085](http://localhost:8085)** или просто дважды кликните на файл **[`index.html`](file:///Users/streamtech/projects/love/index.html)** (работает полностью офлайн без интернета).
 
 ---
 
