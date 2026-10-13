@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тестирование кандидатов в судьи Кыргызской Республики | База 4 332 вопросов</title>
+  <meta name="description" content="Интерактивный тренажер и симулятор квалификационного тестирования для кандидатов на должности судей Кыргызской Республики. 4332 вопроса, 21 тема, режим экзамена, статистика и поиск.">
+  <meta name="keywords" content="тестирование судей кыргызстан, квалификационный экзамен, совет по делам правосудия, конституция кр, уголовное право, гражданское право">
+  <meta name="author" content="LexTest КР">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Application Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="#exam" class="brand-section" id="logo-link">
+        <div class="brand-logo-badge">
+          <!-- Judicial Scales SVG Icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+            <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+            <path d="M7 21h10"/>
+            <path d="M12 3v18"/>
+            <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+          </svg>
+        </div>
+        <div class="brand-title-wrap">
+          <div class="brand-title">
+            LexTest КР
+            <span class="header-badge" id="total-q-badge">4 332 вопроса</span>
+          </div>
+          <span class="brand-subtitle">Квалификационное тестирование кандидатов на должности судей КР</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <!-- Sound FX Toggle Button -->
+        <button class="icon-btn active" id="btn-toggle-sound" title="Звуковые эффекты (Вкл/Выкл)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+        </button>
+
+        <!-- Keyboard Shortcuts Help -->
+        <button class="icon-btn" id="btn-show-shortcuts" title="Горячие клавиши">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M6 8h.001M10 8h.001M14 8h.001M18 8h.001M6 12h.001M10 12h.001M14 12h.001M18 12h.001M7 16h10"/>
+          </svg>
+        </button>
+
+        <!-- Theme Toggle (Dark / Light) -->
+        <button class="icon-btn" id="btn-toggle-theme" title="Сменить тему">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
+        <!-- Fullscreen Button -->
+        <button class="icon-btn" id="btn-toggle-fullscreen" title="Полноэкранный режим">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <button class="nav-tab active" data-view="view-exam-setup" id="tab-exam">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <span>Экзамен</span>
+      </button>
+
+      <button class="nav-tab" data-view="view-practice" id="tab-practice">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+          <path d="M6 6h10M6 10h10M6 14h6"/>
+        </svg>
+        <span>Тренировка по темам</span>
+        <span class="nav-tab-badge" id="tab-topics-badge">21 тема</span>
+      </button>
+
+      <button class="nav-tab" data-view="view-marathon" id="tab-marathon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        <span>Марафон</span>
+      </button>
+
+      <button class="nav-tab" data-view="view-search" id="tab-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <span>База вопросов</span>
+      </button>
+
+      <button class="nav-tab" data-view="view-stats" id="tab-stats">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 20V10M12 20V4M6 20v-6"/>
+        </svg>
+        <span>Статистика</span>
+        <span class="nav-tab-badge" id="errors-count-badge" style="display:none; background:rgba(239, 68, 68, 0.2); color:#f87171;">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main View Container -->
+  <main class="app-main">
+
+    <!-- ====================================================================
+         VIEW 1: EXAM SETUP VIEW
+         ==================================================================== -->
+    <section class="view active" id="view-exam-setup">
+      <div class="exam-hero-grid">
+        <div class="card hero-feature-card">
+          <h1 class="card-title-lg">
+            <span>Симулятор официального тестирования</span>
+          </h1>
+          <p class="card-desc">
+            Полное соответствие официальному компьютерному тестированию кандидатов на должности судей Кыргызской Республики. Настройте параметры экзамена под ваш темп подготовки.
+          </p>
+
+          <!-- Setting 1: Number of Questions -->
+          <div class="settings-group">
+            <span class="settings-label">Количество вопросов:</span>
+            <div class="choice-pills" id="exam-q-count-pills">
+              <button class="pill-option" data-val="25">25 вопросов</button>
+              <button class="pill-option" data-val="50">50 вопросов</button>
+              <button class="pill-option active" data-val="100">100 вопросов (Официальный)</button>
+              <button class="pill-option" data-val="150">150 вопросов</button>
+            </div>
+          </div>
+
+          <!-- Setting 2: Time Limit -->
+          <div class="settings-group">
+            <span class="settings-label">Время на тест:</span>
+            <div class="choice-pills" id="exam-timer-pills">
+              <button class="pill-option" data-val="30">30 минут</button>
+              <button class="pill-option" data-val="60">60 минут</button>
+              <button class="pill-option active" data-val="90">90 минут (Стандарт)</button>
+              <button class="pill-option" data-val="120">120 минут</button>
+              <button class="pill-option" data-val="0">Без таймера</button>
+            </div>
+          </div>
+
+          <!-- Setting 3: Topic Selection Mode -->
+          <div class="settings-group">
+            <span class="settings-label">Выборка вопросов:</span>
+            <div class="choice-pills" id="exam-mode-pills">
+              <button class="pill-option active" data-val="balanced">Сбалансированно из всех 21 тем</button>
+              <button class="pill-option" data-val="random">Полный случайный отбор</button>
+              <button class="pill-option" data-val="weak">Упор на слабые темы (по ошибкам)</button>
+            </div>
+          </div>
+
+          <!-- Setting 4: Immediate Feedback Toggle -->
+          <label class="toggle-switch-wrap">
+            <div class="toggle-switch-info">
+              <span class="toggle-title">Режим обучения (показывать правильный ответ сразу)</span>
+              <span class="toggle-sub">Если выключено — ответы будут показаны только после завершения всего экзамена, как на реальном тесте</span>
+            </div>
+            <div class="switch">
+              <input type="checkbox" id="exam-instant-feedback">
+              <span class="slider"></span>
+            </div>
+          </label>
+
+          <!-- Setting 5: Randomize Options Toggle -->
+          <label class="toggle-switch-wrap">
+            <div class="toggle-switch-info">
+              <span class="toggle-title">Перемешивать варианты ответов</span>
+              <span class="toggle-sub">Исключает запоминание позиций вариантов</span>
+            </div>
+            <div class="switch">
+              <input type="checkbox" id="exam-shuffle-options" checked>
+              <span class="slider"></span>
+            </div>
+          </label>
+
+          <div style="margin-top: 2rem;">
+            <button class="btn btn-primary btn-lg" id="btn-start-exam" style="width: 100%;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+              <span>Начать квалификационный экзамен</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sidebar Card: Rules & Quick Stats -->
+        <div class="card info-sidebar-card">
+          <div>
+            <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              Правила тестирования
+            </h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">
+              Квалификационный экзамен на должность судьи КР:
+            </p>
+
+            <ul class="exam-rules-list">
+              <li class="exam-rule-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Проходной балл: 70%</strong> правильных ответов (не менее 70 из 100).</span>
+              </li>
+              <li class="exam-rule-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>21 отрасль права:</strong> Конституционное, Уголовное, Гражданское, Семейное, Административное, Земельное и др.</span>
+              </li>
+              <li class="exam-rule-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Возврат к вопросам:</strong> можно менять ответы и помечать сложные флажком до сдачи теста.</span>
+              </li>
+              <li class="exam-rule-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Горячие клавиши:</strong> клавиши 1-4 для выбора ответов, стрелки для перелистывания.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div style="background: var(--bg-tertiary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div style="display: flex; justify-content: space-between; font-size: 0.825rem; margin-bottom: 0.4rem;">
+              <span style="color: var(--text-secondary);">Всего вопросов в базе:</span>
+              <strong style="color: var(--text-primary);">4 332</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.825rem; margin-bottom: 0.4rem;">
+              <span style="color: var(--text-secondary);">Отраслей права:</span>
+              <strong style="color: var(--text-primary);">21</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.825rem;">
+              <span style="color: var(--text-secondary);">Ваш общий прогресс:</span>
+              <strong id="sidebar-mastery-pct" style="color: var(--brand-primary-light);">0%</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 2: ACTIVE TEST / RUNNER INTERFACE
+         ==================================================================== -->
+    <section class="view" id="view-test-runner">
+      <!-- Top Status Bar -->
+      <div class="test-top-bar">
+        <div class="test-progress-info">
+          <div class="test-q-counter" id="test-q-counter">Вопрос 1 из 100</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="test-progress-fill"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <!-- Timer Badge -->
+          <div class="test-timer-badge" id="test-timer-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span id="test-timer-text">90:00</span>
+          </div>
+
+          <!-- Finish Test Early Button -->
+          <button class="btn btn-secondary btn-sm" id="btn-finish-test-early">
+            Завершить
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Question Layout -->
+      <div class="question-layout">
+        <!-- Question Main Area -->
+        <div class="card question-main-card">
+          <div class="question-meta-row">
+            <span class="question-topic-badge" id="question-topic-badge">
+              I. Конституционное право
+            </span>
+
+            <div class="question-actions-top">
+              <!-- Font Zoom -->
+              <button class="action-icon-toggle" id="btn-zoom-out" title="Уменьшить шрифт">A−</button>
+              <button class="action-icon-toggle" id="btn-zoom-in" title="Увеличить шрифт">A+</button>
+
+              <!-- Star / Bookmark Toggle -->
+              <button class="action-icon-toggle" id="btn-toggle-bookmark" title="Добавить вопрос в избранное">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+              </button>
+
+              <!-- Flag for review -->
+              <button class="action-icon-toggle" id="btn-toggle-flag" title="Пометить вопрос флажком для повторного просмотра">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Text -->
+          <div class="question-text" id="active-question-text">
+            Загрузка вопроса...
+          </div>
+
+          <!-- Options List -->
+          <div class="options-list" id="active-options-list">
+            <!-- Dynamically populated options -->
+          </div>
+
+          <!-- Answer Explanation Box (Shown in Practice / Instant Mode) -->
+          <div class="answer-explanation-box" id="answer-explanation-box" style="display: none;">
+            <div class="explanation-icon" id="explanation-icon">✓</div>
+            <div class="explanation-content">
+              <div class="explanation-title" id="explanation-title">Верный ответ!</div>
+              <div class="explanation-desc" id="explanation-desc">
+                Правильный ответ выделен зеленым цветом.
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Navigation Bar -->
+          <div class="test-bottom-nav">
+            <div class="test-nav-left">
+              <button class="btn btn-secondary" id="btn-prev-q">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                <span>Назад</span>
+              </button>
+            </div>
+
+            <div class="test-nav-right">
+              <button class="btn btn-primary" id="btn-next-q">
+                <span>Далее</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Question Navigator Sidebar -->
+        <aside class="card question-nav-sidebar" id="question-nav-sidebar">
+          <div class="sidebar-nav-title">
+            <span>Карта вопросов</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);" id="q-nav-answered-stat">0 / 100</span>
+          </div>
+
+          <div class="q-nav-grid" id="q-nav-grid">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="nav-legend">
+            <div class="legend-item"><span class="legend-dot answered"></span><span>Отвечен</span></div>
+            <div class="legend-item"><span class="legend-dot unanswered"></span><span>Ожидает</span></div>
+            <div class="legend-item"><span class="legend-dot flagged"></span><span>Флажок</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 3: RESULTS SCREEN
+         ==================================================================== -->
+    <section class="view" id="view-test-results">
+      <div class="card results-card">
+        <!-- Status Badge -->
+        <div class="result-badge-status passed" id="result-badge-status">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span id="result-status-text">ЭКЗАМЕН СДАН</span>
+        </div>
+
+        <!-- Radial Score Dial -->
+        <div class="score-radial-wrap">
+          <svg class="score-radial-svg" viewBox="0 0 120 120">
+            <circle class="radial-bg" cx="60" cy="60" r="50"></circle>
+            <circle class="radial-progress passed" id="result-radial-circle" cx="60" cy="60" r="50" stroke-dasharray="314.159" stroke-dashoffset="60"></circle>
+          </svg>
+          <div class="score-radial-center">
+            <div class="score-percentage" id="result-percentage-text">85%</div>
+            <div class="score-fraction" id="result-fraction-text">85 из 100</div>
+          </div>
+        </div>
+
+        <p class="card-desc" id="result-verdict-desc" style="max-width: 600px; margin: 0 auto 2rem;">
+          Поздравляем! Вы набрали больше минимального порога (70%) для кандидатов на должность судьи.
+        </p>
+
+        <!-- Stats Grid -->
+        <div class="result-stats-grid">
+          <div class="stat-box">
+            <div class="stat-box-val" id="result-stat-correct" style="color: var(--color-success);">85</div>
+            <div class="stat-box-label">Верно</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-val" id="result-stat-wrong" style="color: var(--color-danger);">15</div>
+            <div class="stat-box-label">Ошибок</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-val" id="result-stat-time">48:12</div>
+            <div class="stat-box-label">Затрачено времени</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-val" id="result-stat-speed">28 сек</div>
+            <div class="stat-box-label">Ср. время на вопрос</div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="results-actions-row">
+          <button class="btn btn-danger" id="btn-retry-mistakes">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+            </svg>
+            <span>Пройти только ошибки</span>
+          </button>
+
+          <button class="btn btn-secondary" id="btn-restart-exam">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+            <span>Новый экзамен</span>
+          </button>
+
+          <button class="btn btn-primary" id="btn-toggle-review-list">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+            <span>Подробный разбор ответов</span>
+          </button>
+        </div>
+
+        <!-- Detailed Review Section -->
+        <div class="results-breakdown-sec" id="results-breakdown-sec" style="display: none;">
+          <div class="breakdown-header">
+            <span>Разбор вопросов</span>
+            <div class="breakdown-filter-tabs">
+              <button class="btn btn-secondary btn-sm active" data-review-filter="all" id="btn-review-all">Все</button>
+              <button class="btn btn-secondary btn-sm" data-review-filter="wrong" id="btn-review-wrong">Ошибки</button>
+              <button class="btn btn-secondary btn-sm" data-review-filter="flagged" id="btn-review-flagged">Флажки</button>
+            </div>
+          </div>
+
+          <div id="review-cards-list">
+            <!-- Dynamically populated cards -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 4: TOPICS PRACTICE (ТРЕНИРОВКА ПО ТЕМАМ)
+         ==================================================================== -->
+    <section class="view" id="view-practice">
+      <div class="topics-toolbar">
+        <div>
+          <h1 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.25rem;">
+            Тематическая тренировка
+          </h1>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">
+            Выберите одну или несколько отраслей права для детальной отработки вопросов с мгновенными пояснениями.
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <button class="btn btn-secondary btn-sm" id="btn-select-all-topics">Выбрать все</button>
+          <button class="btn btn-secondary btn-sm" id="btn-deselect-all-topics">Снять все</button>
+          <button class="btn btn-primary" id="btn-start-practice-selected">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span id="btn-practice-label">Начать тренировку (0 тем)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Topics Cards Grid -->
+      <div class="topics-grid" id="topics-grid">
+        <!-- Populated dynamically with all 21 categories -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 5: MARATHON MODE
+         ==================================================================== -->
+    <section class="view" id="view-marathon">
+      <div class="card" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 3rem 2rem;">
+        <div style="width: 68px; height: 68px; border-radius: var(--radius-xl); background: linear-gradient(135deg, #f59e0b, #d97706); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: #fff; box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+
+        <h1 class="card-title-lg" style="justify-content: center;">Юридический Марафон</h1>
+        <p class="card-desc" style="max-width: 580px; margin: 0 auto 2rem;">
+          Проверьте свою выносливость и эрудицию! Отвечайте на вопросы без остановки до 3 ошибок. Зарабатывайте серии правильных ответов и устанавливайте личные рекорды.
+        </p>
+
+        <div class="marathon-header-stats" style="margin-bottom: 2.5rem;">
+          <div>
+            <div style="font-size: 0.775rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.35rem;">Жизни</div>
+            <div class="marathon-lives" id="marathon-lives-display">
+              <svg class="heart-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              <svg class="heart-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              <svg class="heart-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size: 0.775rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.35rem;">Ваш рекорд</div>
+            <div style="font-size: 1.5rem; font-weight: 800; font-family: var(--font-heading);" id="marathon-best-score">0 вопр.</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" id="btn-start-marathon" style="width: 100%; max-width: 380px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Старт Марафона</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 6: SEARCH & QUESTION BANK
+         ==================================================================== -->
+    <section class="view" id="view-search">
+      <div class="card search-controls-card">
+        <h1 class="card-title-lg">
+          База вопросов и мгновенный поиск
+        </h1>
+        <p class="card-desc" style="margin-bottom: 1rem;">
+          Быстрый поиск по всем 4 332 официальным вопросам судебного тестирования. Введите ключевые слова или статью закона.
+        </p>
+
+        <div class="search-input-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" class="search-input" id="search-query-input" placeholder="Введите текст вопроса, термин или ключевое слово (например: Курултай, залог, апелляция)...">
+        </div>
+
+        <div class="search-filters-row">
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1;">
+            <select class="select-custom" id="search-section-filter">
+              <option value="all">Все отрасли права (21 тема)</option>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+
+          <div style="font-size: 0.875rem; color: var(--text-secondary);">
+            Найдено: <strong style="color: var(--text-primary);" id="search-results-count">4 332</strong> вопросов
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Results List -->
+      <div class="search-results-list" id="search-results-list">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;" id="search-load-more-wrap">
+        <button class="btn btn-secondary" id="btn-search-load-more">Показать еще 30 вопросов</button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 7: STATISTICS & ERROR BANK
+         ==================================================================== -->
+    <section class="view" id="view-stats">
+      <div class="stats-overview-grid">
+        <div class="stats-card">
+          <div class="stats-card-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          </div>
+          <div class="stats-card-val" id="stat-total-solved">0</div>
+          <div class="stats-card-label">Всего ответов дано</div>
+        </div>
+
+        <div class="stats-card">
+          <div class="stats-card-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="stats-card-val" id="stat-accuracy-pct">0%</div>
+          <div class="stats-card-label">Общая точность</div>
+        </div>
+
+        <div class="stats-card">
+          <div class="stats-card-icon" style="background: rgba(239, 68, 68, 0.15); color: #f87171;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <div class="stats-card-val" id="stat-bank-errors-count">0</div>
+          <div class="stats-card-label">Вопросов с ошибками</div>
+        </div>
+
+        <div class="stats-card">
+          <div class="stats-card-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="stats-card-val" id="stat-bookmarks-count">0</div>
+          <div class="stats-card-label">В избранном</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions for Errors & Bookmarks -->
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
+        <button class="btn btn-danger btn-lg" id="btn-practice-all-mistakes" style="flex: 1;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          <span>Тренировать банк ошибок (<span id="btn-mistakes-counter">0</span> вопр.)</span>
+        </button>
+
+        <button class="btn btn-secondary btn-lg" id="btn-practice-all-bookmarks" style="flex: 1;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>Тренировать избранное (<span id="btn-bookmarks-counter">0</span> вопр.)</span>
+        </button>
+      </div>
+
+      <!-- Category Progress Breakdown -->
+      <div class="card stats-sections-card">
+        <h2 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 1.25rem;">
+          Уровень усвоения по 21 отрасли права
+        </h2>
+        <div id="stats-topic-rows-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Clear Data Button -->
+      <div style="text-align: right;">
+        <button class="btn btn-ghost btn-sm" id="btn-reset-all-data" style="color: var(--text-muted);">
+          Сбросить мою историю и статистику
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       MODALS & DIALOGS
+       ==================================================================== -->
+  <!-- Modal: Keyboard Shortcuts -->
+  <div class="modal-overlay" id="modal-shortcuts">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="btn-close-modal-shortcuts">&times;</button>
+      <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem;">Горячие клавиши</h2>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        Управляйте тестированием без мыши для максимальной скорости:
+      </p>
+
+      <table class="shortcuts-table">
+        <tr>
+          <td><span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> <span class="kbd">4</span></td>
+          <td>Выбор соответствующего варианта ответа</td>
+        </tr>
+        <tr>
+          <td><span class="kbd">Enter</span> или <span class="kbd">→</span></td>
+          <td>Перейти к следующему вопросу</td>
+        </tr>
+        <tr>
+          <td><span class="kbd">←</span></td>
+          <td>Вернуться к предыдущему вопросу</td>
+        </tr>
+        <tr>
+          <td><span class="kbd">F</span></td>
+          <td>Пометить вопрос флажком для перепроверки</td>
+        </tr>
+        <tr>
+          <td><span class="kbd">B</span></td>
+          <td>Добавить в избранное / закладки</td>
+        </tr>
+        <tr>
+          <td><span class="kbd">Esc</span></td>
+          <td>Закрыть модальное окно</td>
+        </tr>
+      </table>
+
+      <div style="text-align: right; margin-top: 1rem;">
+        <button class="btn btn-primary" id="btn-shortcuts-ok">Понятно</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Confirm Finish Exam -->
+  <div class="modal-overlay" id="modal-confirm-finish">
+    <div class="modal-card" style="max-width: 440px; text-align: center;">
+      <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.75rem;">Завершить экзамен?</h2>
+      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem;" id="confirm-finish-msg">
+        У вас остались неотвеченные вопросы. Завершить тест и подсчитать итоговый результат?
+      </p>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: center;">
+        <button class="btn btn-secondary" id="btn-cancel-finish">Продолжить тест</button>
+        <button class="btn btn-danger" id="btn-confirm-finish">Да, завершить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Load Questions Database -->
+  <script src="questions.js"></script>
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
