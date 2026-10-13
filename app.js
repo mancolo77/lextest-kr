@@ -96,6 +96,9 @@
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         this.ctx = new AudioCtx();
       }
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
     },
 
     playTone(freq, type = 'sine', duration = 0.1, startDelay = 0, gainValue = 0.08) {
@@ -103,7 +106,7 @@
       try {
         this.init();
         if (this.ctx.state === 'suspended') {
-          this.ctx.resume();
+          this.ctx.resume().catch(() => {});
         }
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
@@ -328,8 +331,17 @@
     // Toggle navigation tab active states
     document.querySelectorAll('.nav-tab').forEach(tab => {
       const view = tab.getAttribute('data-view');
-      tab.classList.toggle('active', view === targetViewId);
+      const isActive = view === targetViewId;
+      tab.classList.toggle('active', isActive);
+      if (isActive && tab.scrollIntoView) {
+        try {
+          tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        } catch (e) {}
+      }
     });
+
+    // Close mobile question palette if open
+    closeMobilePalette();
 
     // Toggle views
     document.querySelectorAll('.view').forEach(view => {
@@ -736,6 +748,7 @@
         AudioEngine.click();
         test.currentIndex = i;
         renderActiveQuestion();
+        closeMobilePalette();
       });
 
       grid.appendChild(btn);
@@ -1359,6 +1372,72 @@
   }
 
   // =========================================================================
+  // 11.5 MOBILE & SAFARI HELPERS
+  // =========================================================================
+  function openMobilePalette() {
+    const sidebar = document.getElementById('question-nav-sidebar');
+    const backdrop = document.getElementById('mobile-palette-backdrop');
+    if (sidebar) sidebar.classList.add('open');
+    if (backdrop) backdrop.classList.add('active');
+  }
+
+  function closeMobilePalette() {
+    const sidebar = document.getElementById('question-nav-sidebar');
+    const backdrop = document.getElementById('mobile-palette-backdrop');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
+  }
+
+  function toggleMobilePalette() {
+    const sidebar = document.getElementById('question-nav-sidebar');
+    if (sidebar && sidebar.classList.contains('open')) {
+      closeMobilePalette();
+    } else {
+      openMobilePalette();
+    }
+  }
+
+  function setupTouchSwipeNavigation() {
+    const runner = document.getElementById('view-test-runner');
+    if (!runner) return;
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+
+    runner.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      const sidebar = document.getElementById('question-nav-sidebar');
+      if (sidebar && sidebar.classList.contains('open')) return;
+
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+    }, { passive: true });
+
+    runner.addEventListener('touchend', (e) => {
+      if (!touchStartX || !touchStartY) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+      const deltaTime = Date.now() - touchStartTime;
+
+      touchStartX = 0;
+      touchStartY = 0;
+
+      // Horizontal swipe threshold: min 60px horizontal, max 55px vertical, within 500ms
+      if (Math.abs(deltaX) > 60 && Math.abs(deltaY) < 55 && deltaTime < 500) {
+        if (deltaX < 0) {
+          nextQuestion();
+        } else {
+          prevQuestion();
+        }
+      }
+    }, { passive: true });
+  }
+
+  // =========================================================================
   // 12. EVENT LISTENERS SETUP
   // =========================================================================
   function setupEventListeners() {
@@ -1393,15 +1472,66 @@
       saveStore();
     });
 
-    // Fullscreen Toggle
+    // Safari & Cross-Browser Fullscreen Toggle
     document.getElementById('btn-toggle-fullscreen').addEventListener('click', () => {
       AudioEngine.click();
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
+      const doc = document.documentElement;
+      const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+
+      if (!isFullscreen) {
+        if (doc.requestFullscreen) {
+          doc.requestFullscreen().catch(() => {});
+        } else if (doc.webkitRequestFullscreen) {
+          doc.webkitRequestFullscreen();
+        } else {
+          showToast('Полноэкранный режим не поддерживается на данном мобильном браузере');
+        }
       } else {
-        document.exitFullscreen().catch(() => {});
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
       }
     });
+
+    // Mobile Question Palette Triggers
+    const btnTogglePalette = document.getElementById('btn-toggle-mobile-palette');
+    if (btnTogglePalette) {
+      btnTogglePalette.addEventListener('click', () => {
+        AudioEngine.click();
+        toggleMobilePalette();
+      });
+    }
+
+    const btnClosePalette = document.getElementById('btn-close-mobile-palette');
+    if (btnClosePalette) {
+      btnClosePalette.addEventListener('click', () => {
+        AudioEngine.click();
+        closeMobilePalette();
+      });
+    }
+
+    const paletteBackdrop = document.getElementById('mobile-palette-backdrop');
+    if (paletteBackdrop) {
+      paletteBackdrop.addEventListener('click', () => {
+        closeMobilePalette();
+      });
+    }
+
+    // Touch swipe navigation for mobile
+    setupTouchSwipeNavigation();
+
+    // Unlock Web Audio for Safari / iOS on first user interaction
+    const unlockAudioSafari = () => {
+      AudioEngine.init();
+      window.removeEventListener('touchstart', unlockAudioSafari, true);
+      window.removeEventListener('touchend', unlockAudioSafari, true);
+      window.removeEventListener('click', unlockAudioSafari, true);
+    };
+    window.addEventListener('touchstart', unlockAudioSafari, { capture: true, passive: true });
+    window.addEventListener('touchend', unlockAudioSafari, { capture: true, passive: true });
+    window.addEventListener('click', unlockAudioSafari, { capture: true });
 
     // Shortcuts Modal
     document.getElementById('btn-show-shortcuts').addEventListener('click', () => {

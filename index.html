@@ -2,11 +2,17 @@
 <html lang="ru" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Тестирование кандидатов в судьи Кыргызской Республики | База 4 332 вопросов</title>
   <meta name="description" content="Интерактивный тренажер и симулятор квалификационного тестирования для кандидатов на должности судей Кыргызской Республики. 4332 вопроса, 21 тема, режим экзамена, статистика и поиск.">
   <meta name="keywords" content="тестирование судей кыргызстан, квалификационный экзамен, совет по делам правосудия, конституция кр, уголовное право, гражданское право">
   <meta name="author" content="LexTest КР">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LexTest КР">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#090d16" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1f5f9" media="(prefers-color-scheme: light)">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -280,7 +286,15 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <!-- Mobile Palette Button -->
+          <button class="btn btn-secondary btn-sm mobile-palette-btn" id="btn-toggle-mobile-palette" title="Открыть карту всех вопросов">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+            </svg>
+            <span class="mobile-palette-btn-text">Карта</span>
+          </button>
+
           <!-- Timer Badge -->
           <div class="test-timer-badge" id="test-timer-badge">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -365,11 +379,18 @@
           </div>
         </div>
 
-        <!-- Right Question Navigator Sidebar -->
+        <!-- Backdrop for Mobile Question Palette -->
+        <div class="mobile-drawer-backdrop" id="mobile-palette-backdrop"></div>
+
+        <!-- Right Question Navigator Sidebar / Mobile Drawer Sheet -->
         <aside class="card question-nav-sidebar" id="question-nav-sidebar">
+          <div class="mobile-drawer-handle" id="mobile-drawer-handle"></div>
           <div class="sidebar-nav-title">
             <span>Карта вопросов</span>
-            <span style="font-size: 0.8rem; color: var(--text-muted);" id="q-nav-answered-stat">0 / 100</span>
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <span style="font-size: 0.8rem; color: var(--text-muted);" id="q-nav-answered-stat">0 / 100</span>
+              <button class="mobile-drawer-close-btn" id="btn-close-mobile-palette" aria-label="Закрыть">&times;</button>
+            </div>
           </div>
 
           <div class="q-nav-grid" id="q-nav-grid">
